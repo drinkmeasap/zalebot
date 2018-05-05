@@ -1,6 +1,7 @@
 import discord
 import asyncio
 from tokenbot import token
+from time import sleep
 client = discord.Client()
 
 @client.event
@@ -12,14 +13,11 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('!test'):
-        counter = 0
-        tmp = await client.send_message(message.channel, 'Calculating messages...')
-        async for log in client.logs_from(message.channel, limit=100):
-            if log.author == message.author:
-                counter += 1
+    if message.content.startswith('!hello'):
+        await client.send_message(message.channel,  'Hello ' + str(message.author))
+        
 
-        await client.edit_message(tmp, 'You have {} messages.'.format(counter))
+        
     elif message.content.startswith('!sleep'):
         await asyncio.sleep(5)
         await client.send_message(message.channel, 'Done sleeping')
